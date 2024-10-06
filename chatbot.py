@@ -184,8 +184,7 @@ elif st.session_state.step == 1:
     user_archetype = st.selectbox("What type of experience are you in the mood for today?", archetypes, index=archetypes.index(st.session_state.user_info.get('archetype', archetypes[0])))
 
     # Only proceed if the user selects an archetype and clicks the submit button
-    if st.button("Submit Archetype"):
-        with st.spinner("Processing your archetype..."):
+    if st.button("Submit Archetype") or user_archetype:
             st.session_state.user_info['archetype'] = user_archetype
             st.session_state.chat_history.append({"role": "user", "content": user_archetype})
 
@@ -224,7 +223,7 @@ elif st.session_state.step == 3:
 
     # Proceed based on user's explicit choice
     if st.button("Submit Response") and user_response != "":
-        with st.spinner("Processing your response..."):
+        
             if user_response == "Yes":
                 st.session_state.chat_history.append({"role": "user", "content": "Yes, I like the suggestion."})
                 st.session_state.chat_history.append({"role": "assistant", "content": "Great! Would you like a restaurant recommendation nearby?"})
