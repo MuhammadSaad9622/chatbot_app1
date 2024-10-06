@@ -1,7 +1,4 @@
-langchain
-langchain-community
-PyPDF2
-python-dotenv
+
 streamlit
 openai
 faiss-cpu
@@ -12,12 +9,9 @@ docx2txt
 fpdf 
 twilio
 googlemaps
-Client
-re
-ssl
-os
-Mail
-SendGridAPIClient
+sendgrid
+
+
 
 
 pycryptodome==3.15.0

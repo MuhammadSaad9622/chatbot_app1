@@ -1,6 +1,4 @@
 from openai import OpenAI
-
-
 import streamlit as st
 import googlemaps
 from twilio.rest import Client as TwilioClient
