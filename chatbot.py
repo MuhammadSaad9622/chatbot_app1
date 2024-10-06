@@ -1,4 +1,6 @@
 from openai import OpenAI
+
+client = st.secrets["OPENAI_API_KEY"]
 import streamlit as st
 import googlemaps
 from twilio.rest import Client as TwilioClient
@@ -14,8 +16,8 @@ ssl._create_default_https_context = ssl._create_unverified_context
 # Initialize API keys
 
 
-gmaps = googlemaps.Client(key=GOOGLE_PLACES_API_KEY)
-twilio_client = TwilioClient(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
+gmaps = googlemaps.Client(key=st.secrets["GOOGLE_PLACES_API_KEY"])
+twilio_client = TwilioClient(st.secrets["TWILIO_ACCOUNT_SID"], st.secrets["TWILIO_AUTH_TOKEN"])
 
 # Streamlit UI
 st.title("HART - Your Experience & Restaurant Recommender Chatbot")
@@ -55,7 +57,7 @@ def send_email(to_email, subject, content):
         html_content=content
     )
     try:
-        sg = SendGridAPIClient(SENDGRID_API_KEY)
+        sg = SendGridAPIClient(st.secrets["SENDGRID_API_KEY"])
         response = sg.send(message)
         st.success(f"Email sent!")
     except Exception as e:
