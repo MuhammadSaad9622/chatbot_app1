@@ -186,8 +186,8 @@ elif st.session_state.step == 1:
 
     # Only proceed if the user selects an archetype and clicks the submit button
     if st.button("Submit Archetype") or user_archetype:
-         if user_location.strip() == "":
-            st.warning("Please enter your location before proceeding.")
+         if user_archetype.strip() == "":
+            st.warning("Please enter your archetypes before proceeding.")
          else:
             st.session_state.user_info['location'] = user_location
             st.session_state.chat_history.append({"role": "user", "content": user_location})
