@@ -16,7 +16,8 @@ ssl._create_default_https_context = ssl._create_unverified_context
 
 # Initialize API keys
 
-client = st.secrets["OPENAI_API_KEY"]
+openai.api_key = st.secrets["OPENAI_API_KEY"]
+
 
 
 gmaps = googlemaps.Client(key=st.secrets["GOOGLE_PLACES_API_KEY"])
@@ -45,10 +46,12 @@ def generate_human_like_response(user_message):
     messages.extend(st.session_state.chat_history)
     messages.append({"role": "user", "content": user_message})
 
-    response =client.chat.completions.create(model="gpt-3.5-turbo",
+    response = openai.ChatCompletion.create(
+    model="gpt-3.5-turbo",
     messages=messages,
     max_tokens=150,
-    temperature=0.8)
+    temperature=0.8
+)
     return response.choices[0].message.content.strip()
 
 # Function to send email using SendGrid
