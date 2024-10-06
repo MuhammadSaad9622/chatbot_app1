@@ -229,7 +229,7 @@ elif st.session_state.step == 3:
     user_response = st.radio("Do you like this suggestion?", ("", "Yes", "No"), index=0)  # Empty string acts as no selection
 
     # Proceed based on user's explicit choice
-    if st.button("Submit Response") and user_response != "":
+    if st.button("Submit Response") or user_response != "":
         
             if user_response == "Yes":
                 st.session_state.chat_history.append({"role": "user", "content": "Yes, I like the suggestion."})
