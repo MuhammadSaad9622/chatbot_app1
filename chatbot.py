@@ -185,7 +185,7 @@ elif st.session_state.step == 1:
     user_archetype = st.selectbox("What type of experience are you in the mood for today?", archetypes, index=archetypes.index(st.session_state.user_info.get('archetype', archetypes[0])))
 
     # Only proceed if the user selects an archetype and clicks the submit button
-    if st.button("Submit Archetype") or user_archetype:
+    if st.button("Submit Archetype"):
         if user_archetype.strip() == "":
             st.warning("Please enter your Archetype before proceeding.")
             
