@@ -186,18 +186,20 @@ elif st.session_state.step == 1:
 
     # Only proceed if the user selects an archetype and clicks the submit button
     if st.button("Submit Archetype") or user_archetype:
-         if user_archetype.strip() == "":
-            st.warning("Please enter your archetypes before proceeding.")
-         else:
-            st.session_state.user_info['location'] = user_location
-            st.session_state.chat_history.append({"role": "user", "content": user_location})
+        if user_archetype.strip() == "":
+            st.warning("Please enter your Archetype before proceeding.")
+            
+        else:    
+            
+            st.session_state.user_info['archetype'] = user_archetype
+            st.session_state.chat_history.append({"role": "user", "content": user_archetype})
 
-            # Fetch dynamic recommendations from Google Places API
-            experience_name, experience_location = fetch_experience(st.session_state.user_info['location'], st.session_state.user_info['archetype'])
+            # Fetch a description for the selected experience type using OpenAI
+            description = generate_human_like_response(f"Describe a {user_archetype} experience in 3-4 lines.")
+            st.session_state.chat_history.append({"role": "assistant", "content": description})
 
-            st.session_state.experience = f"Here is an experience you might love:\n\n- {experience_name}\nLocation: {experience_location}"
-
-            st.session_state.chat_history.append({"role": "assistant", "content": st.session_state.experience})
+            # Ask for the user's location next
+            st.session_state.chat_history.append({"role": "assistant", "content": "Where are you located? Please enter your city and state (e.g., New York, NY)."})
             st.session_state.step += 1
 
 
