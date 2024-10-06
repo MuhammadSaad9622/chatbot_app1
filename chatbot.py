@@ -161,11 +161,11 @@ for chat in st.session_state.chat_history:
         st.write(f"HART: {chat['content']}")
 
 # Handle flow based on the current step 
-# Step 0: Name Submission
 if st.session_state.step == 0:
+    # Welcome & Name Input
     user_name = st.text_input("Hi, I'm HART! What's your name? Let's find your next great experience!", "")
     
-    if st.button("Submit Name"):
+    if st.button("Submit Name") or user_name:
         if user_name.strip() == "":
             st.warning("Please enter your name before proceeding.")
         else:
@@ -175,10 +175,35 @@ if st.session_state.step == 0:
             st.session_state.chat_history.append({"role": "assistant", "content": f"Awesome, {first_name}! What type of experience are you in the mood for today?"})
             st.session_state.step += 1
 
-# Step 2: Location Submission
+
+# Step 1: Experience Archetype Selection
+elif st.session_state.step == 1:
+    # List of available archetypes
+    archetypes = ["Thrill Seeking", "Creative & Artsy", "Super Chill & Leisurely", "Foodie", "Live Entertainment & Shows"]
+
+    # Ensure the selectbox dynamically captures the user's selection
+    user_archetype = st.selectbox("What type of experience are you in the mood for today?", archetypes, index=archetypes.index(st.session_state.user_info.get('archetype', archetypes[0])))
+
+    # Only proceed if the user selects an archetype and clicks the submit button
+    if st.button("Submit Archetype") or user_archetype:
+         if user_location.strip() == "":
+            st.warning("Please enter your location before proceeding.")
+         else:
+            st.session_state.user_info['location'] = user_location
+            st.session_state.chat_history.append({"role": "user", "content": user_location})
+
+            # Fetch dynamic recommendations from Google Places API
+            experience_name, experience_location = fetch_experience(st.session_state.user_info['location'], st.session_state.user_info['archetype'])
+
+            st.session_state.experience = f"Here is an experience you might love:\n\n- {experience_name}\nLocation: {experience_location}"
+
+            st.session_state.chat_history.append({"role": "assistant", "content": st.session_state.experience})
+            st.session_state.step += 1
+
+
 elif st.session_state.step == 2:
     user_location = st.text_input("Where are you located? Just your city and state will do!", "")
-    if st.button("Submit Location"):
+    if st.button("Submit Location") or user_location:
         if user_location.strip() == "":
             st.warning("Please enter your location before proceeding.")
         else:
@@ -193,16 +218,17 @@ elif st.session_state.step == 2:
             st.session_state.chat_history.append({"role": "assistant", "content": st.session_state.experience})
             st.session_state.step += 1
 
-# Step 3: Response to Experience Suggestion
+
+# Step 3 - Ask if the user likes the suggestion (radio buttons without pre-selection)
 elif st.session_state.step == 3:
     st.write(st.session_state.experience)
     
-    user_response = st.radio("Do you like this suggestion?", ("", "Yes", "No"), index=0)
-    
-    if st.button("Submit Response"):
-        if user_response == "":
-            st.warning("Please select an option to continue.")
-        else:
+    # Initialize an empty user_response to avoid default selection
+    user_response = st.radio("Do you like this suggestion?", ("", "Yes", "No"), index=0)  # Empty string acts as no selection
+
+    # Proceed based on user's explicit choice
+    if st.button("Submit Response") and user_response != "":
+        
             if user_response == "Yes":
                 st.session_state.chat_history.append({"role": "user", "content": "Yes, I like the suggestion."})
                 st.session_state.chat_history.append({"role": "assistant", "content": "Great! Would you like a restaurant recommendation nearby?"})
@@ -210,8 +236,7 @@ elif st.session_state.step == 3:
             elif user_response == "No":
                 st.session_state.chat_history.append({"role": "user", "content": "No, I don't like the suggestion."})
                 st.session_state.chat_history.append({"role": "assistant", "content": "No problem! I can find something else for you."})
-                st.session_state.step = 1  # Go back to step 1
-
+                st.session_state.step = 1  # Go back to step 1 to choose a new archetype
     elif user_response == "":
         st.warning("Please select an option to continue.")  # Show a warning if no option is selected
 
