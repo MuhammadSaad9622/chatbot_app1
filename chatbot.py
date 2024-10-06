@@ -1,6 +1,6 @@
 from openai import OpenAI
 
-client = st.secrets["OPENAI_API_KEY"]
+
 import streamlit as st
 import googlemaps
 from twilio.rest import Client as TwilioClient
@@ -15,7 +15,7 @@ ssl._create_default_https_context = ssl._create_unverified_context
 
 # Initialize API keys
 
-
+client = st.secrets["OPENAI_API_KEY"]
 gmaps = googlemaps.Client(key=st.secrets["GOOGLE_PLACES_API_KEY"])
 twilio_client = TwilioClient(st.secrets["TWILIO_ACCOUNT_SID"], st.secrets["TWILIO_AUTH_TOKEN"])
 

@@ -1,5 +1,7 @@
-OPENAI_API_KEY = "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"
-GOOGLE_PLACES_API_KEY = "AIzaSyDI8YTBIJ6FDHI7PhU_9-RyU3BfPnftEl4"
-TWILIO_ACCOUNT_SID = "ACf3bf768dc23cc31bcf40fc28006cee03"
-TWILIO_AUTH_TOKEN = "bf1139f2364e1997c14a1df882db54af"
-SENDGRID_API_KEY = "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"
+[general]
+email = "your-email@example.com"
+
+[server]
+headless = true
+enableCORS = false
+port = 8501
