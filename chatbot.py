@@ -3,8 +3,9 @@
 
 from openai import OpenAI
 
-client = OpenAI(api_key="OPENAI_API_KEY")
+
 import streamlit as st
+client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 import googlemaps
 from twilio.rest import Client as TwilioClient
 from sendgrid import SendGridAPIClient
