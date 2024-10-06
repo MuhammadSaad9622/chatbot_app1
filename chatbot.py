@@ -16,7 +16,7 @@ ssl._create_default_https_context = ssl._create_unverified_context
 
 # Initialize API keys
 
-openai.api_key = st.secrets["OPENAI_API_KEY"]
+Client = st.secrets["OPENAI_API_KEY"]
 
 
 
@@ -46,7 +46,7 @@ def generate_human_like_response(user_message):
     messages.extend(st.session_state.chat_history)
     messages.append({"role": "user", "content": user_message})
 
-    response = openai.chatcompletions.create(
+    response = Client.chatcompletions.create(
     model="gpt-3.5-turbo",
     messages=messages,
     max_tokens=150,
