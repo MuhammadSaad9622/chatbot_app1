@@ -1,6 +1,6 @@
 from openai import OpenAI
 
-client = OpenAI(api_key="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")
+
 import streamlit as st
 import googlemaps
 from twilio.rest import Client as TwilioClient
