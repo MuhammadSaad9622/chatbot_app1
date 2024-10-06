@@ -46,7 +46,7 @@ def generate_human_like_response(user_message):
     messages.extend(st.session_state.chat_history)
     messages.append({"role": "user", "content": user_message})
 
-    response = openai.chat_completions.create(
+    response = openai.chatcompletions.create(
     model="gpt-3.5-turbo",
     messages=messages,
     max_tokens=150,
