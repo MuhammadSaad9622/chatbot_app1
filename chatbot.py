@@ -1,7 +1,9 @@
 
 
 
-import openai
+from openai import OpenAI
+
+client = OpenAI(api_key="OPENAI_API_KEY")
 import streamlit as st
 import googlemaps
 from twilio.rest import Client as TwilioClient
@@ -16,7 +18,7 @@ ssl._create_default_https_context = ssl._create_unverified_context
 
 # Initialize API keys
 
-Client = st.secrets["OPENAI_API_KEY"]
+
 
 
 
@@ -46,12 +48,10 @@ def generate_human_like_response(user_message):
     messages.extend(st.session_state.chat_history)
     messages.append({"role": "user", "content": user_message})
 
-    response = Client.chatcompletions.create(
-    model="gpt-3.5-turbo",
+response = client.chat.completions.create(model="gpt-3.5-turbo",
     messages=messages,
     max_tokens=150,
-    temperature=0.8
-)
+    temperature=0.8)
     return response.choices[0].message.content.strip()
 
 # Function to send email using SendGrid
