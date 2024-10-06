@@ -1,6 +1,7 @@
 from openai import OpenAI
 
 
+import openai
 import streamlit as st
 import googlemaps
 from twilio.rest import Client as TwilioClient
@@ -15,7 +16,9 @@ ssl._create_default_https_context = ssl._create_unverified_context
 
 # Initialize API keys
 
-client = st.secrets["OPENAI_API_KEY"]
+openai_api_key = st.secrets["OPENAI_API_KEY"]
+
+openai.api_key = openai_api_key
 gmaps = googlemaps.Client(key=st.secrets["GOOGLE_PLACES_API_KEY"])
 twilio_client = TwilioClient(st.secrets["TWILIO_ACCOUNT_SID"], st.secrets["TWILIO_AUTH_TOKEN"])
 
@@ -42,7 +45,7 @@ def generate_human_like_response(user_message):
     messages.extend(st.session_state.chat_history)
     messages.append({"role": "user", "content": user_message})
 
-    response = client.chat.completions.create(model="gpt-3.5-turbo",
+    response = openai.api_key.chat.completions.create(model="gpt-3.5-turbo",
     messages=messages,
     max_tokens=150,
     temperature=0.8)
