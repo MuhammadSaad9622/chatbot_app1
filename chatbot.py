@@ -45,15 +45,17 @@ if 'restaurants' not in st.session_state:
 
 # Function to generate chatbot response with context
 def generate_human_like_response(user_message):
-    messages = [{"role": "system", "content": "You are a helpful and engaging chatbot that provides personalized recommendations and maintains a friendly conversation."}]
+    messages = [{"role": "system", "content": "You are a helpful and engaging chatbot."}]
     messages.extend(st.session_state.chat_history)
     messages.append({"role": "user", "content": user_message})
 
-    response = client.chat.completions.create(model="gpt-3.5-turbo",
-    messages=messages,
-    max_tokens=150,
-    temperature=0.8)
-    return response.choices[0].message.content.strip()
+    try:
+        response = client.chat.completions.create(model="gpt-3.5-turbo", messages=messages, max_tokens=150, temperature=0.8)
+        return response.choices[0].message.content.strip()
+    except Exception as e:
+        st.error(f"Error generating response: {str(e)}")
+        return "I'm sorry, something went wrong. Please try again later."
+
 
 # Function to send email using SendGrid
 def send_email(to_email, subject, content):
