@@ -18,7 +18,7 @@ twilio_client = TwilioClient(st.secrets["TWILIO_ACCOUNT_SID"], st.secrets["TWILI
 
 # Load CSS styles
 def load_css():
-    with open("css/styles.css") as f:
+    with open("styles.css") as f:
         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
 # Streamlit UI
